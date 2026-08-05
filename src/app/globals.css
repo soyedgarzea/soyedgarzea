@@ -644,10 +644,7 @@ a {
 }
 
 .product-icon {
-  position: absolute;
-  z-index: 1;
-  top: 28px;
-  right: 20px;
+  flex: 0 0 auto;
   display: grid;
   width: 58px;
   height: 58px;
@@ -670,7 +667,6 @@ a {
   justify-content: space-between;
   gap: 16px;
   margin-bottom: 20px;
-  padding-right: 70px;
 }
 
 .product-body {
@@ -687,12 +683,6 @@ a {
   font-weight: 900;
   letter-spacing: 0.13em;
   text-transform: uppercase;
-}
-
-.product-meta span {
-  color: #827c89;
-  font-size: 0.75rem;
-  font-weight: 900;
 }
 
 .product-body h2 {

@@ -44,20 +44,19 @@ export function ItemsPage({ locale }: ItemsPageProps) {
               key={product.name}
             >
               <div className='product-body'>
-                <div
-                  className='product-icon'
-                  aria-hidden='true'
-                >
-                  <Image
-                    alt=''
-                    height={56}
-                    src={product.iconUrl}
-                    width={56}
-                  />
-                </div>
                 <div className='product-meta'>
                   <p className='product-category'>{product.category[locale]}</p>
-                  <span>{String(index + 1).padStart(2, '0')}</span>
+                  <div
+                    className='product-icon'
+                    aria-hidden='true'
+                  >
+                    <Image
+                      alt=''
+                      height={56}
+                      src={product.iconUrl}
+                      width={56}
+                    />
+                  </div>
                 </div>
                 <h2>{product.name}</h2>
                 {product.opinion ? (
