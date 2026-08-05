@@ -3,14 +3,15 @@
 ## Confirmed
 
 - Hosting provider: Vercel.
-- Runtime Node.js version: `24.16.0`.
+- Production domain: `https://soyedgarzea.vercel.app`.
+- Runtime Node.js version: `24.x`.
 - Package manager: pnpm `10.23.0`.
 - Install command: `pnpm install --frozen-lockfile`.
 - Build command: `pnpm build`.
 - Output mode: standard Next.js output.
 - Required environment variables: none.
 
-## Pending Deployment
+## Pending Deployment Data
 
-Provider project ID, team, production domain, preview URL pattern, and branch-to-environment mapping
-must be recorded after Vercel project creation. Until then, metadata must not assume a canonical URL.
+Provider project ID, team, preview URL pattern, and branch-to-environment mapping must be recorded
+when available.
