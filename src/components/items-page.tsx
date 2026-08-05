@@ -1,4 +1,6 @@
+import Image from 'next/image';
 import { products } from '@/content/site.data';
+import { ProductReviewDialog } from './product-review-dialog';
 import { SiteFooter } from './site-footer';
 import { SiteHeader } from './site-header';
 import type { ItemsPageProps } from './items-page.types';
@@ -38,35 +40,56 @@ export function ItemsPage({ locale }: ItemsPageProps) {
         >
           {products.map((product, index) => (
             <article
-              className='product-card'
+              className={`product-card product-card-${(index % 4) + 1}`}
               key={product.name}
             >
-              <div className={`product-art product-art-${index + 1}`}>
-                <span>{product.marketplace}</span>
-                <strong>0{index + 1}</strong>
-              </div>
               <div className='product-body'>
-                <p className='product-category'>{product.category[locale]}</p>
-                <h2>{product.name}</h2>
-                <p className='product-opinion'>
-                  {product.opinion?.[locale] ??
-                    (es
-                      ? 'Mi reseña estará disponible próximamente.'
-                      : 'My review will be available soon.')}
-                </p>
-                {product.referralUrl ? (
-                  <a
-                    href={product.referralUrl}
-                    rel='nofollow sponsored noreferrer'
-                    target='_blank'
+                <div className='product-meta'>
+                  <p className='product-category'>{product.category[locale]}</p>
+                  <div
+                    className='product-icon'
+                    aria-hidden='true'
                   >
-                    {es ? `Ver en ${product.marketplace} ↗` : `View on ${product.marketplace} ↗`}
-                  </a>
-                ) : (
-                  <span className='coming-soon'>
-                    {es ? 'Enlace próximamente' : 'Link coming soon'}
-                  </span>
-                )}
+                    <Image
+                      alt=''
+                      height={56}
+                      src={product.iconUrl}
+                      width={56}
+                    />
+                  </div>
+                </div>
+                <h2>{product.name}</h2>
+                {product.opinion ? (
+                  <ProductReviewDialog
+                    locale={locale}
+                    productName={product.name}
+                    review={product.opinion[locale]}
+                  />
+                ) : null}
+                <div className='product-links'>
+                  {product.reviewUrl ? (
+                    <a
+                      href={product.reviewUrl}
+                      rel='noreferrer'
+                      target='_blank'
+                    >
+                      {es ? 'Ver video reseña en Instagram ↗' : 'Watch video review on Instagram ↗'}
+                    </a>
+                  ) : null}
+                  {product.referralUrl ? (
+                    <a
+                      href={product.referralUrl}
+                      rel='nofollow sponsored noreferrer'
+                      target='_blank'
+                    >
+                      {es ? `Ver en ${product.marketplace} ↗` : `View on ${product.marketplace} ↗`}
+                    </a>
+                  ) : (
+                    <span className='coming-soon'>
+                      {es ? 'Enlace próximamente' : 'Link coming soon'}
+                    </span>
+                  )}
+                </div>
               </div>
             </article>
           ))}

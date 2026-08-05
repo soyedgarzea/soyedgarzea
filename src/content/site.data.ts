@@ -202,27 +202,59 @@ export const experience: readonly ExperienceItem[] = [
 
 export const products: readonly ProductItem[] = [
   {
-    name: 'Teclado de Piano Eléctrico Alesis de 8 Teclas Portátil, 480 Voces',
-    marketplace: 'Amazon',
+    name: 'Teclado de Piano Eléctrico Alesis de 88 Teclas Portátil, 480 Voces',
+    marketplace: 'Mercado Libre',
     category: { es: 'Música', en: 'Music' },
-    opinion: null,
-    imageUrl: null,
-    referralUrl: null,
+    iconUrl: '/items/electric-piano.svg',
+    opinion: {
+      es: 'Es una muy buena opción para quienes quieren comenzar a aprender piano sin invertir de inmediato en un equipo profesional. Cuenta con 480 sonidos, control de volumen y conexión MIDI para utilizarlo con aplicaciones y programas musicales. Incluye cargador, también funciona con baterías y ofrece una prueba gratuita de clases en línea. En general, es un teclado versátil, completo y amigable para principiantes.',
+      en: 'It is a very good option for anyone who wants to start learning piano without immediately investing in professional equipment. It has 480 sounds, volume control, and MIDI connectivity for use with music apps and software. It includes a charger, can also run on batteries, and offers a free trial of online lessons. Overall, it is a versatile, complete, and beginner-friendly keyboard.',
+    },
+    referralUrl: 'https://meli.la/1SnLzpf',
+    reviewUrl:
+      'https://www.instagram.com/reel/Dbq8LVHyTV5/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==',
   },
   {
     name: 'Funda para Piano Digital de 99 Teclas, Antipolvo',
     marketplace: 'Mercado Libre',
     category: { es: 'Accesorios musicales', en: 'Music accessories' },
+    iconUrl: '/items/piano-cover.svg',
     opinion: null,
-    imageUrl: null,
-    referralUrl: null,
+    referralUrl: 'https://meli.la/1WcL1kT',
+    reviewUrl: null,
   },
   {
     name: 'Soporte Ajustable en Altura para Teclado y Piano Electrónico',
     marketplace: 'Mercado Libre',
     category: { es: 'Accesorios musicales', en: 'Music accessories' },
+    iconUrl: '/items/keyboard-stand.svg',
     opinion: null,
-    imageUrl: null,
-    referralUrl: null,
+    referralUrl: 'https://meli.la/1s52tDi',
+    reviewUrl: null,
+  },
+  {
+    name: 'Roborock Qrevo S',
+    marketplace: 'Mercado Libre',
+    category: { es: 'Hogar inteligente', en: 'Smart home' },
+    iconUrl: '/items/robot-vacuum.svg',
+    opinion: {
+      es: 'Es una excelente opción para mantener el hogar limpio con menos esfuerzo. Aspira y trapea de forma eficiente, aunque requiere mantenimiento regular para conservar un buen rendimiento. En hogares con mascotas o acumulación de polvo puede necesitar más de una pasada. Para trapear, la marca recomienda su líquido especial, aunque también funciona únicamente con agua. En general, es un equipo práctico y completo para la limpieza diaria, siempre que se mantengan limpios sus cepillos, depósitos y mopas.',
+      en: 'It is an excellent option for keeping a home clean with less effort. It vacuums and mops efficiently, although it needs regular maintenance to keep performing well. Homes with pets or significant dust buildup may require more than one pass. The brand recommends its special cleaning solution for mopping, although it can also work with water only. Overall, it is a practical and complete device for daily cleaning as long as its brushes, tanks, and mop pads are kept clean.',
+    },
+    referralUrl: 'https://meli.la/2rGeDqy',
+    reviewUrl:
+      'https://www.instagram.com/reel/DLoBRDNRQF8/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==',
+  },
+  {
+    name: 'Caminadora Portátil',
+    marketplace: 'Mercado Libre',
+    category: { es: 'Ejercicio', en: 'Fitness' },
+    iconUrl: '/items/walking-pad.svg',
+    opinion: {
+      es: 'Si buscas una opción para mantenerte activo mientras trabajas desde casa, esta caminadora ofrece una muy buena relación calidad-precio. Está diseñada para caminatas y actividad ligera, no para entrenamientos intensos ni correr a altas velocidades. Su velocidad es suficiente para mantenerse en movimiento durante la jornada laboral y sus ruedas facilitan moverla. Aunque es más compacta que una caminadora tradicional, todavía necesita un espacio considerable para guardarla. En general, es una excelente alternativa para incorporar más actividad física a la rutina diaria sin ocupar tanto espacio como un equipo convencional.',
+      en: 'If you want to stay active while working from home, this walking pad offers very good value for money. It is designed for walking and light activity, not intense training or high-speed running. Its speed is enough to keep moving during the workday, and its wheels make it easier to relocate. Although more compact than a traditional treadmill, it still needs considerable storage space. Overall, it is an excellent way to add more physical activity to a daily routine without taking up as much room as conventional equipment.',
+    },
+    referralUrl: 'https://meli.la/1V5ys3A',
+    reviewUrl: null,
   },
 ];
