@@ -30,9 +30,10 @@ export type ProductItem = Readonly<{
   name: string;
   marketplace: string;
   category: LocalizedText;
+  iconUrl: string;
   opinion: LocalizedText | null;
-  imageUrl: string | null;
   referralUrl: string | null;
+  reviewUrl: string | null;
 }>;
 
 export type NavigationItem = Readonly<{

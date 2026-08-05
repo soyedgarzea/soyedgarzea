@@ -81,6 +81,17 @@ template. Read this file before editing code or docs.
 - If a decision depends on the consuming project, add or update a placeholder under
   `docs/project-specific/`.
 
+## Item Content Rules
+
+- When supplied item data adds or changes an item, update site content in the same change.
+- Preserve optional content: do not render placeholder review text when no written review exists.
+- Add a local, original item icon when the product can be represented accurately; otherwise keep
+  the card image-free instead of inventing or hotlinking an unreliable asset.
+- Recheck item-grid layout whenever item count or content length changes, and adjust responsive or
+  masonry behavior when needed.
+- Treat purchase, referral, and external review URLs as distinct fields and update each from the
+  supplied item source.
+
 ## GitHub Workflow Rules
 
 - Human work should start from `develop`.
