@@ -1,0 +1,67 @@
+name: Engineering task
+description: Track technical, infrastructure, documentation, or maintenance work.
+title: 'chore: '
+labels:
+  - type:task
+  - status:triage
+body:
+  - type: textarea
+    id: objective
+    attributes:
+      label: Objective
+      description: What technical outcome should this task produce?
+    validations:
+      required: true
+  - type: dropdown
+    id: technical_area
+    attributes:
+      label: Technical area
+      options:
+        - architecture
+        - automation
+        - ci
+        - deployment
+        - docs
+        - github
+        - infra
+        - release
+        - testing
+        - tooling
+        - other
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: What is included and excluded?
+      placeholder: |
+        Included:
+        - ...
+
+        Excluded:
+        - ...
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: Validation
+      description: How should this be verified?
+      placeholder: 'Example: pnpm validate, workflow dry run, docs review.'
+    validations:
+      required: true
+  - type: textarea
+    id: risks
+    attributes:
+      label: Risks
+      description: Compatibility, migration, release, or workflow risks.
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Links, implementation notes, or related issues.
+    validations:
+      required: false

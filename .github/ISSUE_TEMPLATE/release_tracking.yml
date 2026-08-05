@@ -1,0 +1,80 @@
+name: Release tracking
+description: Track a release candidate, production release, and post-release sync.
+title: 'release: v'
+labels:
+  - type:release
+  - status:triage
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Release version.
+      placeholder: 'v0.1.0'
+    validations:
+      required: true
+  - type: dropdown
+    id: release_type
+    attributes:
+      label: Release type
+      description: Exactly one version label should match this selection.
+      options:
+        - version:patch
+        - version:minor
+        - version:major
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Release scope
+      description: What accepted changes are included?
+      placeholder: |
+        - ...
+        - ...
+    validations:
+      required: true
+  - type: textarea
+    id: preview
+    attributes:
+      label: Preview PR
+      description: Link the develop -> preview PR when it exists.
+      placeholder: 'PR: #'
+    validations:
+      required: false
+  - type: textarea
+    id: release_candidate
+    attributes:
+      label: Release-candidate PR
+      description: Link the preview -> release PR when it exists.
+      placeholder: 'PR: #'
+    validations:
+      required: false
+  - type: textarea
+    id: production_release
+    attributes:
+      label: Production-release PR
+      description: Link the release -> main PR when it exists.
+      placeholder: 'PR: #'
+    validations:
+      required: false
+  - type: textarea
+    id: post_release_sync
+    attributes:
+      label: Post-release sync
+      description: Track the main -> develop sync PR and status.
+      placeholder: 'PR: #'
+    validations:
+      required: false
+  - type: textarea
+    id: validation
+    attributes:
+      label: Validation
+      description: Required checks before publishing the release.
+      placeholder: |
+        - [ ] Release candidate checks pass
+        - [ ] Production release checks pass
+        - [ ] GitHub Release published
+        - [ ] Develop sync completed
+    validations:
+      required: true

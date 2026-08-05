@@ -1,0 +1,57 @@
+name: Branch Protection Check
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - preview
+      - release
+      - main
+      - template
+    types:
+      - opened
+      - edited
+      - synchronize
+      - reopened
+  push:
+    branches:
+      - main
+      - template
+
+concurrency:
+  group: branch-policy-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  branch-policy:
+    name: Branch Policy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate branch policy
+        run: node .github/scripts/validate-branch-policy.mjs
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "## Branch Policy"
+            echo ""
+            echo "- Base: ${{ github.event.pull_request.base.ref || github.ref_name }}"
+            echo "- Head: ${{ github.event.pull_request.head.ref || github.ref_name }}"
+            echo "- Result: ${{ job.status }}"
+          } >> "$GITHUB_STEP_SUMMARY"

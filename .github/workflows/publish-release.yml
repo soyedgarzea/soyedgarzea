@@ -1,0 +1,78 @@
+name: Publish Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_version:
+        description: Release version without v prefix.
+        required: false
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-release
+  cancel-in-progress: false
+
+jobs:
+  publish-release:
+    name: Publish Release
+    runs-on: ubuntu-latest
+    outputs:
+      release-version: ${{ steps.publish.outputs.version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          ref: main
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Publish GitHub Release
+        id: publish
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          RELEASE_VERSION: ${{ inputs.release_version }}
+        run: node .github/scripts/publish-release.mjs
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "## Publish Release"
+            echo ""
+            echo "- Result: ${{ job.status }}"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  develop-sync-pr:
+    name: Develop Sync
+    needs: publish-release
+    uses: ./.github/workflows/develop-sync-pr.yml
+    with:
+      release_version: ${{ needs.publish-release.outputs.release-version }}
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+
+  template-branch:
+    name: Template Update
+    needs: publish-release
+    uses: ./.github/workflows/template-branch.yml
+    with:
+      release_version: ${{ needs.publish-release.outputs.release-version }}
+    permissions:
+      contents: write
