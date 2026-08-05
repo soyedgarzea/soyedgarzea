@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { products } from '@/content/site.data';
+import { ProductReviewDialog } from './product-review-dialog';
 import { SiteFooter } from './site-footer';
 import { SiteHeader } from './site-header';
 import type { ItemsPageProps } from './items-page.types';
@@ -42,26 +43,29 @@ export function ItemsPage({ locale }: ItemsPageProps) {
               className={`product-card product-card-${(index % 4) + 1}`}
               key={product.name}
             >
-              <div
-                className='product-icon'
-                aria-hidden='true'
-              >
-                <Image
-                  alt=''
-                  height={112}
-                  src={product.iconUrl}
-                  width={112}
-                />
-              </div>
               <div className='product-body'>
+                <div
+                  className='product-icon'
+                  aria-hidden='true'
+                >
+                  <Image
+                    alt=''
+                    height={56}
+                    src={product.iconUrl}
+                    width={56}
+                  />
+                </div>
                 <div className='product-meta'>
                   <p className='product-category'>{product.category[locale]}</p>
                   <span>{String(index + 1).padStart(2, '0')}</span>
                 </div>
                 <h2>{product.name}</h2>
-                <p className='product-marketplace'>{product.marketplace}</p>
                 {product.opinion ? (
-                  <p className='product-opinion'>{product.opinion[locale]}</p>
+                  <ProductReviewDialog
+                    locale={locale}
+                    productName={product.name}
+                    review={product.opinion[locale]}
+                  />
                 ) : null}
                 <div className='product-links'>
                   {product.reviewUrl ? (
