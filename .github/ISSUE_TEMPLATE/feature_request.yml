@@ -1,0 +1,67 @@
+name: Feature request
+description: Propose new project or template behavior.
+title: 'feat: '
+labels:
+  - type:feature
+  - status:triage
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for user-facing features, template capabilities, or reusable project behavior.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What problem should this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposed_outcome
+    attributes:
+      label: Proposed outcome
+      description: What should exist when this is done?
+    validations:
+      required: true
+  - type: dropdown
+    id: affected_area
+    attributes:
+      label: Affected area
+      options:
+        - app
+        - architecture
+        - automation
+        - ci
+        - deployment
+        - design-system
+        - docs
+        - github
+        - infra
+        - release
+        - other
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance criteria
+      description: List observable outcomes required for completion.
+      placeholder: |
+        - ...
+        - ...
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: Validation
+      description: Which checks, tests, docs, or browser flows should verify this?
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Links, project-specific inputs, risks, or alternatives.
+    validations:
+      required: false

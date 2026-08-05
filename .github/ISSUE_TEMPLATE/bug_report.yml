@@ -1,0 +1,71 @@
+name: Bug report
+description: Report broken or unexpected behavior.
+title: 'fix: '
+labels:
+  - type:bug
+  - status:triage
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for defects in project behavior, tooling, workflow, or documentation.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What is broken?
+      placeholder: Describe the observed problem.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Provide the shortest reliable reproduction.
+      placeholder: |
+        1. Run ...
+        2. Open ...
+        3. Observe ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What should happen?
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What happens instead?
+    validations:
+      required: true
+  - type: dropdown
+    id: impact
+    attributes:
+      label: Impact
+      options:
+        - Blocks release or production use
+        - Blocks development
+        - Degrades user behavior
+        - Degrades developer workflow
+        - Minor issue
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: Validation
+      description: How should the fix be verified?
+      placeholder: 'Example: pnpm validate, browser check, workflow check, regression test.'
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Logs, screenshots, links, or related issues.
+    validations:
+      required: false

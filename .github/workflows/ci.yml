@@ -1,0 +1,109 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - develop
+      - preview
+      - release
+      - main
+      - template
+  pull_request:
+    branches:
+      - develop
+      - preview
+      - release
+      - main
+      - template
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality-gate:
+    name: Quality Gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run quality checks
+        run: pnpm validate
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "## Quality Gate"
+            echo ""
+            echo "- Ref: $GITHUB_REF"
+            echo "- SHA: $GITHUB_SHA"
+            echo "- Validation: ${{ job.status }}"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  workflow-lint:
+    name: Workflow Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint workflow files
+        run: pnpm workflow:lint
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "## Workflow Lint"
+            echo ""
+            echo "- Workflow lint: ${{ job.status }}"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  dependency-review:
+    name: Dependency Review
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Dependency review
+        id: dependency-review
+        continue-on-error: true
+        uses: actions/dependency-review-action@v5
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "## Dependency Review"
+            echo ""
+            echo "- Dependency review: ${{ steps.dependency-review.outcome }}"
+            echo "- Note: unsupported repositories must enable Dependency graph and GitHub Advanced Security before making this check required."
+          } >> "$GITHUB_STEP_SUMMARY"

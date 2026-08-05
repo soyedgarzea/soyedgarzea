@@ -1,0 +1,60 @@
+name: Develop Sync PR
+
+on:
+  workflow_call:
+    inputs:
+      release_version:
+        description: Release version without v prefix.
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs:
+      release_version:
+        description: Release version without v prefix.
+        required: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: develop-sync-pr
+  cancel-in-progress: false
+
+jobs:
+  develop-sync-pr:
+    name: Develop Sync PR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          ref: main
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Create or update develop sync PR
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          RELEASE_VERSION: ${{ inputs.release_version }}
+        run: node .github/scripts/create-develop-sync-pr.mjs
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "## Develop Sync PR"
+            echo ""
+            echo "- Result: ${{ job.status }}"
+          } >> "$GITHUB_STEP_SUMMARY"
