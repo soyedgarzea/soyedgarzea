@@ -1,0 +1,45 @@
+name: Close Linked Issues
+
+on:
+  pull_request:
+    branches:
+      - develop
+    types:
+      - closed
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: read
+
+concurrency:
+  group: close-linked-issues-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  close-linked-issues:
+    name: Close Linked Issues
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Close linked issues
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node .github/scripts/close-linked-issues.mjs
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "## Close Linked Issues"
+            echo ""
+            echo "- PR: #${{ github.event.pull_request.number }}"
+            echo "- Result: ${{ job.status }}"
+          } >> "$GITHUB_STEP_SUMMARY"

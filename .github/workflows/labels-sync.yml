@@ -1,0 +1,50 @@
+name: Labels Sync
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - develop
+    paths:
+      - '.github/labels.yml'
+      - '.github/workflows/labels-sync.yml'
+      - '.github/scripts/sync-labels.mjs'
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  labels-sync:
+    name: Labels Sync
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Sync labels
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node .github/scripts/sync-labels.mjs
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "## Labels Sync"
+            echo ""
+            echo "- Labels source: .github/labels.yml"
+            echo "- Result: ${{ job.status }}"
+          } >> "$GITHUB_STEP_SUMMARY"

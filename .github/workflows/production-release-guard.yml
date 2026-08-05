@@ -1,0 +1,56 @@
+name: Production Release Guard
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - edited
+      - synchronize
+      - reopened
+      - labeled
+      - unlabeled
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: production-release-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  release-shape:
+    name: Release Shape
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate production release PR
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node .github/scripts/validate-production-release-pr.mjs
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "## Release Shape"
+            echo ""
+            echo "- PR: #${{ github.event.pull_request.number }}"
+            echo "- Result: ${{ job.status }}"
+          } >> "$GITHUB_STEP_SUMMARY"

@@ -1,0 +1,56 @@
+name: Release Label Guard
+
+on:
+  pull_request:
+    branches:
+      - release
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - labeled
+      - unlabeled
+
+concurrency:
+  group: release-label-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  version-label:
+    name: Version Label
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate release labels and update title
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node .github/scripts/update-release-candidate-version.mjs
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "## Version Label"
+            echo ""
+            echo "- PR: #${{ github.event.pull_request.number }}"
+            echo "- Result: ${{ job.status }}"
+          } >> "$GITHUB_STEP_SUMMARY"
