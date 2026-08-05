@@ -593,17 +593,19 @@ a {
 }
 
 .product-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
+  columns: 3 280px;
+  column-gap: 18px;
   padding: 0 3vw 120px;
 }
 
 .product-card {
+  position: relative;
   overflow: hidden;
   display: flex;
-  min-height: 570px;
+  width: 100%;
+  break-inside: avoid;
   flex-direction: column;
+  margin: 0 0 18px;
   border: 1px solid var(--ink);
   border-radius: 22px;
   background: white;
@@ -612,52 +614,55 @@ a {
     box-shadow 220ms ease;
 }
 
+.product-card::before {
+  content: '';
+  display: block;
+  height: 12px;
+  background: var(--card-accent);
+  border-bottom: 1px solid var(--ink);
+}
+
+.product-card-1 {
+  --card-accent: var(--coral);
+}
+
+.product-card-2 {
+  --card-accent: var(--cyan);
+}
+
+.product-card-3 {
+  --card-accent: var(--yellow);
+}
+
+.product-card-4 {
+  --card-accent: color-mix(in srgb, var(--purple) 34%, white);
+}
+
 .product-card:hover {
   transform: translateY(-8px);
   box-shadow: 11px 11px 0 var(--ink);
 }
 
-.product-art {
-  position: relative;
-  min-height: 235px;
-  overflow: hidden;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
+.product-icon {
+  display: grid;
+  min-height: 160px;
+  place-items: center;
   padding: 24px;
+  background: color-mix(in srgb, var(--card-accent) 30%, white);
   border-bottom: 1px solid var(--ink);
 }
 
-.product-art::after {
-  content: '';
-  position: absolute;
-  inset: 38px 24%;
-  border: 3px solid var(--ink);
-  border-radius: 50%;
-  transform: rotate(-18deg);
+.product-icon img {
+  width: 112px;
+  height: 112px;
 }
 
-.product-art-1 {
-  background: var(--coral);
-}
-.product-art-2 {
-  background: var(--cyan);
-}
-.product-art-3 {
-  background: var(--yellow);
-}
-
-.product-art span,
-.product-art strong {
-  position: relative;
-  z-index: 1;
-  font-size: 0.72rem;
-  font-weight: 900;
-  text-transform: uppercase;
-}
-
-.product-art strong {
-  font-size: 2.4rem;
+.product-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
 }
 
 .product-body {
@@ -668,12 +673,18 @@ a {
 }
 
 .product-category {
-  margin: 0 0 12px;
+  margin: 0;
   color: var(--purple);
   font-size: 0.7rem;
   font-weight: 900;
   letter-spacing: 0.13em;
   text-transform: uppercase;
+}
+
+.product-meta span {
+  color: #827c89;
+  font-size: 0.75rem;
+  font-weight: 900;
 }
 
 .product-body h2 {
@@ -683,13 +694,27 @@ a {
   letter-spacing: -0.04em;
 }
 
+.product-marketplace {
+  margin: 12px 0 0;
+  color: #625c69;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
 .product-opinion {
   margin-bottom: 24px;
 }
 
-.product-body > a,
-.coming-soon {
+.product-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   margin-top: auto;
+}
+
+.product-links a,
+.coming-soon {
   font-size: 0.8rem;
   font-weight: 900;
 }
@@ -779,7 +804,7 @@ a {
 
   .hobby-grid,
   .product-grid {
-    grid-template-columns: 1fr;
+    columns: 1;
   }
 
   .hobby-card {
